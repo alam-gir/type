@@ -28,6 +28,7 @@ async function renderNewQuotes() {
   console.log(quote);
 }
 
+// every changes in input box
 function input() {
   const quoteCharacterArr = document.querySelectorAll("span");
   const inputCharacterArr = inputBox.value.split("");
@@ -61,18 +62,38 @@ function input() {
 
 function showResult(inputArr, textArr, totalCorrect, totalMistake) {
   if (inputArr.length >= textArr.length) {
+    // remove focus from input box
     inputBox.blur();
+    // show result output
     let someMistake = `<span class="correct">${totalCorrect}</span> correct and <span class="mistake">${totalMistake}</span> mistake.`;
     let allCorrect = `<span class="correct">congretulations</span> you typed everything correct.`;
     !totalMistake
       ? (result.innerHTML = allCorrect)
       : (result.innerHTML = someMistake);
-
-    // correctResult.textContent = correctCount;
-    // mistakeResult.textContent = misCount;
     result.style.display = "block";
   } else {
+    // remove result output
     result.style.display = "none";
   }
 }
 renderNewQuotes();
+
+// * getting time
+let typingTime = 5;
+timer.textContent = typingTime;
+let SetTimer = (seconds) => {
+  let currentDate = Math.floor(new Date() / 1000);
+  setInterval(() => {
+    let backToDate = Math.floor(new Date() / 1000 - seconds);
+    let startTime = currentDate - backToDate;
+    timer.textContent = startTime;
+    console.log("a");
+    if (startTime > 0 /* ? condition to stop timer*/) {
+      timer.textContent = startTime;
+    } else if (startTime <= 0) {
+      clearInterval(SetTimer());
+      timer.textContent = 0;
+    }
+  }, 1000);
+};
+// SetTimer(typingTime);
